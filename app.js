@@ -171,7 +171,7 @@ var msg='funds have been tranformed from '+req.body.address+' to '+account2+' of
 console.log(msg)
      var params = { 
 'sender': 'SEDEMO', 'apikey': '6ubqq88255zc9v0071n9856gxsl09p10i', 'to': [ varphonenumber],
-'message': msg, 'format': 'json' };
+'message': 'funds tranformed successfully', 'format': 'json' };
 springedge.messages.send(params, 5000, function (err, response) {
   if (err) {
     return console.log(err);
