@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-
-  <meta charset="UTF-8">
-
-  <title>Payment Form</title>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/B2071078-5F2C-3B4B-808A-765D86A52613/main.js" charset="UTF-8"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -14,164 +14,8 @@
 	<link type="text/css" rel="stylesheet" href="bootstrap.min.css" />
 
 	<link type="text/css" rel="stylesheet" href="style.css" />
-    <style>
-@import url(http://fonts.googleapis.com/css?family=Exo:100,200,400);
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
-
-body{
-	margin: 0;
-	padding: 0;
-	background: #fff;
-
-	color: #fff;
-	font-family: Arial;
-	font-size: 12px;
-}
-
-.body{
-	position: absolute;
-	top: -20px;
-	left: -20px;
-	right: -40px;
-	bottom: -40px;
-	width: auto;
-	height: auto;
-	background-image: url(http://ginva.com/wp-content/uploads/2012/07/city-skyline-wallpapers-008.jpg);
-	background-size: cover;
-	-webkit-filter: blur(5px);
-	z-index: 0;
-}
-
-.grad{
-	position: absolute;
-	top: -20px;
-	left: -20px;
-	right: -40px;
-	bottom: -40px;
-	width: auto;
-	height: auto;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
-	z-index: 1;
-	opacity: 0.7;
-}
-
-.header{
-	position: absolute;
-	top: calc(50% - 35px);
-	left: calc(50% - 255px);
-	z-index: 2;
-}
-
-.header div{
-	float: left;
-	color: #fff;
-	font-family: 'Exo', sans-serif;
-	font-size: 35px;
-	font-weight: 200;
-}
-
-.header div span{
-	color: #5379fa !important;
-}
-
-.login{
-	position: absolute;
-	top: calc(50% - 75px);
-	left: calc(50% - 50px);
-	height: 150px;
-	width: 350px;
-	padding: 10px;
-	z-index: 2;
-}
-
-.login input[type=text]{
-	width: 250px;
-	height: 30px;
-	background: transparent;
-	border: 1px solid rgba(255,255,255,0.6);
-	border-radius: 2px;
-	color: #fff;
-	font-family: 'Exo', sans-serif;
-	font-size: 16px;
-	font-weight: 400;
-	padding: 4px;
-}
-
-.login input[type=number]{
-	width: 250px;
-	height: 30px;
-	background: transparent;
-	border: 1px solid rgba(255,255,255,0.6);
-	border-radius: 2px;
-	color: #fff;
-	font-family: 'Exo', sans-serif;
-	font-size: 16px;
-	font-weight: 400;
-	padding: 4px;
-	margin-top: 10px;
-}
-.login input[type=password]{
-	width: 250px;
-	height: 30px;
-	background: transparent;
-	border: 1px solid rgba(255,255,255,0.6);
-	border-radius: 2px;
-	color: #fff;
-	font-family: 'Exo', sans-serif;
-	font-size: 16px;
-	font-weight: 400;
-	padding: 4px;
-	margin-top: 10px;
-}
-
-.login button{
-	width: 260px;
-	height: 35px;
-	background: #fff;
-	border: 1px solid #fff;
-	cursor: pointer;
-	border-radius: 2px;
-	color: #a18d6c;
-	font-family: 'Exo', sans-serif;
-	font-size: 16px;
-	font-weight: 400;
-	padding: 6px;
-	margin-top: 10px;
-}
-
-.login button:hover{
-	opacity: 0.8;
-}
-
-.login button:active{
-	opacity: 0.6;
-}
-
-.login input[type=text]:focus{
-	outline: none;
-	border: 1px solid rgba(255,255,255,0.9);
-}
-
-.login input[type=number]:focus{
-	outline: none;
-	border: 1px solid rgba(255,255,255,0.9);
-}
-.login input[type=password]:focus{
-	outline: none;
-	border: 1px solid rgba(255,255,255,0.9);
-}
-.login button:focus{
-	outline: none;
-}
-
-::-webkit-input-placeholder{
-   color: rgba(255,255,255,0.6);
-}
-
-::-moz-input-placeholder{
-   color: rgba(255,255,255,0.6);
-}
-.section {
+<style type="text/css">
+	.section {
 	position: relative;
 	height: 100vh;
 }
@@ -193,7 +37,7 @@ body{
 }
 
 .booking-form {
-	background: rgba(0, 0, 0, 0.7);
+	background: rgba(0.3, 0.26, 0.5, 0.7);
 	padding: 40px;
 	border-radius: 6px;
 }
@@ -391,17 +235,13 @@ body{
   background-color: red !important;
 }
 </style>
-
-    <script src="js/prefixfree.min.js"></script>
-
+	
 </head>
 
-<body>
-   
-  <div class="body"></div>
-		<!-- <div class="grad"> -->
-			<div id="booking" class="section"  b>
-			<nav class="navbar navbar-default navbar-fixed-top">
+<body >
+	
+	<div id="booking" class="section"  b>
+		<nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -409,51 +249,109 @@ body{
         <span class="icon-bar"></span>
         <span class="icon-bar"></span> 
       </button>
-      <a class="navbar-brand" href="#">Logo</a>
+      
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/">HOME</a></li>
+        <li><a href="/home">HOME</a></li>
         <li><a href="/view">VIEW</a></li>
-        <li><a href="/index1">ADD TOUR</a></li>
+        <li><a href="/index1">DONATE</a></li>
 <!--         <li><a href="/contact">CONTACT</a></li>
- -->        <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+ -->        
       </ul>
     </div>
   </div>
-</nav></div>
-		<div class="header">
-			<div>Payment<span></span></div>
-		</div>
-		<br>
-		<form method="post" action="/paymentdone">
-		<div class="login">
-				<input type="text" placeholder="Address" name="address1" id="address1"><br>
-<!-- 				<input type="text" placeholder="PrivateKey" name=privateKey" id="privateKey"><br>
- -->				<input type="number" placeholder="amount1" name="amount1" id="amount1"><br>
-				<button id="button">Pay</button>
-		</div>
-          </form>
-  <script src='http://codepen.io/assets/libs/fullpage/jquery.js'>
-  	$('#button').click(function() {
-		
-		 var doc = new jsPDF();
-		// doc.addImage(imgData, 'JPEG',0,0,210,297);
-		 
-		var Address = $('#address1').val();
-		var Name = $('#name1').val();		
-		doc.setFontSize(26);
-		doc.setTextColor(92, 76, 76);
-		
-		doc.text(23, 81, Address);
-		doc.text(23,91,"has booked")
-		doc.text(23, 122, Name);
-		
-		 doc.save('ticketpdf.pdf');
+</nav>
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="booking-form">
+						<form method="post" action="/pay">
+							<div class="form-group">
+								<div class="form-checkbox">
+									<label for="roundtrip">
+										<br/><span></span><h1>Donate</h1>
+										
+									</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group">
+										
+										<span class="form-label">Project Name</span>
+										<input class="form-control" type="text" placeholder="projectname" name="projectname" required>
+										<!-- <select class="form-control">
+											<option></option>
+                                            <option value="volvo">Volvo</option>
+                                             <option value="saab">Saab</option>
+                                                <option value="mercedes">Mercedes</option>
+                                                    <option value="audi">Audi</option>
+                                                </select> -->
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<span class="form-label">Donar Name</span>
+										<input class="form-control" type="text" placeholder="Donar Name" name="donarname" required>
 
-	});
-  </script>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<!-- <div class="form-group">
+										<span class="form-label">Children (0-17)</span>
+										<input class="form-control" type="" required>
+									</div> -->
+									<div class="form-group">
+										<span class="form-label">Email</span>
+										<input class="form-control" type="text" name="email" required>
+									</div>
+								</div>
+								<div class="col-md-3">
+								<div class="form-group">
+										<span class="form-label">Phone Number</span>
+										<input class="form-control" type="Number" name="phonenumber" required>
+									</div>
+								</div>
+							    
+							</div>
+							<div class="row">
+								
+								
+								<div class="col-md-3">
+									<div class="form-group">
+										<span class="form-label">Address</span>
+										<input class="form-control" type="text" name="address" required>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<span class="form-label">PrivateKey</span>
+										<input class="form-control" type="text" name="p" required>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<span class="form-label">Amount</span>
+										<input class="form-control" type="Number" name="amount" required>
+									</div>
+								</div>
+							</div>
 
-</body>
+							<div class="row">
+								
+								<div class="col-md-3">
+									<div class="form-btn">
+										<button class="submit-btn" >Proceed to payment</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
 </html>

@@ -4,10 +4,11 @@ var express = require("express");
 var jsdom= require("jsdom");
 var JSDOM=jsdom.JSDOM;
 var path=require("path");
-var springedge = require('springedge');// springedge
 var app = express();
 var port = 3000;
+var nodemailer = require('nodemailer');
 var bodyParser = require('body-parser');
+var springedge = require('springedge');
 app.set('views',path.join(__dirname,'views'));
  app.engine('html', require('ejs').renderFile);
  app.set('view engine','html');
@@ -17,30 +18,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.Promise = global.Promise;
 var MongoClient = require('mongodb').MongoClient;
 var db;
-var url="mongodb://localhost:27017/DonationDB";
+var url="mongodb://localhost:27017/DonationDB";//create a collection in mongoDB with name DonationDB
 var Tx= require('ethereumjs-tx');
 const Web3 = require('web3');
 var web3Provider=null;
-var varphonenumber='';
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'email@domain.com',
+    pass: 'password'
+  }
+});
 var web3;
     if(typeof web3 !== 'undefined'){
     web3 = new Web3(web3.currentProvider);
 } else {
-    web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/16e52454629a4586a80d4eaf9a88a0cd"));
+    web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/APIKEY"));//inser apikey of your infura project
 }
-//var account1='0x53b93e07bCb4b3de47535dbCa39Aa9f417D9d738'
-const account2='0x45638F8B600e03E0A1e13D54e512aaF5D50e3018'
-var newPassword=null;
-// var privatekey1=Buffer.from('0e01525e0d90ef42c3de4dba059896277c5531fd28214bcd7d651dc607046a71','hex')
-// var privatekey2=Buffer.from('3445c72dc66045d099b85585edae8ac7c517e1b5846a5ace572da98de106f61c','hex')
-/*web3.eth.getBalance(account1,(err,bal)=>{
-  console.log('account1 getBalance',web3.fromWei(bal,'ether'))
-})*/
+const account2='0x.....'// enter the address of recipient to whom ethers to be transformed
 
-web3.eth.getBalance(account2,(err,bal)=>{
-  console.log('account2 getBalance',web3.fromWei(bal,'ether'))
-})
-mongoose.connect("mongodb://localhost:27017/DonationDB",function(err,database){
+mongoose.connect("mongodb://localhost:27017/DonationDB",function(err,database){// connection to mongoDB
   if(!err){ db=database;
       console.log('MongoDB connection succeeded')}
         else{console.log('Error in database connection:'+ err)}
@@ -50,11 +47,11 @@ app.set('views',path.join(__dirname,'views'));
  app.engine('html', require('ejs').renderFile);
  app.set('view engine','html');
 app.use('/img', express.static(__dirname + '/img'));
-var numTickets=0;
-var varflyingto="";
-var varflyingfrom="";
-var varflightname="";
-var nameSchema = new mongoose.Schema({
+// var numTickets=0;
+// var varflyingto="";
+// var varflyingfrom="";
+// var varflightname="";
+var nameSchema = new mongoose.Schema({ // creating a mongodb schema 
   projectname:String,
   donarname:String,
   amount:Number,
@@ -62,19 +59,91 @@ var nameSchema = new mongoose.Schema({
   email:String,
   phonenumber:String,
 });
+var registrationSchema = new mongoose.Schema({ // creating a mongodb schema 
+ userEmail:String,
+ userPassword:String,
+ username:String
+});
 
-//var Payment=mongoose.model("payments",paymentschema);
-var User = mongoose.model("user", nameSchema);
+var User = mongoose.model("user", nameSchema);// creating a DB object
+var Register = mongoose.model("Registercredentials", registrationSchema);
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/start.html");
+  res.sendFile(__dirname + "/loginpage.html");//sending login page to server
+});
+app.post("/login",function(req,res){//login page
+  var email=req.body.email;
+  var password=req.body.password;
+  Register.findOne({userEmail:email,userPassword:password}).then(function(result){// search in mango inbuild
+    if(result===null)
+    {
+        
+         return res.render('loginpage',{
+      title:'logout',
+
+     });
+    }else{
+      return res.render('Start',{
+      title:'start',
+
+     });
+    }
+  })
+})
+app.post("/homepage",function(req,res){
+ // if(req.body.psw==req.body.psw1){
+new Register({userEmail:req.body.email,userPassword:req.body.psw,username:req.body.name}).save()
+    .then(item => { 
+      var mailOptions = {
+           from: 'emailaddress',
+            to: req.body.email,
+            subject: 'You have successfully registered',
+            text: 'you have successfully registered with the email '+ req.body.email+' password '+req.body.psw
+                      };
+
+           transporter.sendMail(mailOptions, function(error, info){
+           if (error) {
+               console.log(error);
+             } else {
+              console.log('Email sent: ' + info.response);
+             }
+           });
+          return res.render('Start',{
+      title:'start',
+
+     });
+
+    }).catch(err => {
+       return res.render('loginpage',{
+      title:'loginpage',
+
+     });
+      res.status(400).send("unable to save to database");
+    });
+  /* }else{
+    return res.render('registerpage',{
+      title:'Register',
+
+     });
+   }*/
+})
+app.get("/registerpage", (req, res) => {
+  
+   return res.render('registerpage',{
+      title:'Register',
+
+     });
+});
+app.get("/home", (req, res) => {
+  
+   return res.render('Start',{
+      title:'Start ',
+
+     });
 });
 app.get("/index1", (req, res) => {
-  // var name=document.getElementById('charityname').textContent+" charity";
-   /* var name=$("#charityname").text()*/
-   /*var name=req.body.donate;
-  return res.render(__dirname + "/views/index.html", {name:name});*/
+  
    return res.render('index',{
-      title:'Add tour',
+      title:'Index',
 
      });
 });
@@ -84,7 +153,7 @@ app.get("/contact",function(req,res){
 
      });
 });
-app.get('/view', function(req, res){
+app.get('/view', function(req, res){ // setting data from mongodb in tabular form
 
       User.find({}, function(err, docs){
         if(err) res.json(err);
@@ -102,14 +171,11 @@ app.get('/view', function(req, res){
         html+="<td>"+docs[i].address+"</td>";
         html+="<td>"+docs[i].amount+"</td>";
         html+="</tr>";
-
     }
     html+="</table>";
     res.send(html);
 
             }
-            
-           
     });
      
 });
@@ -119,16 +185,15 @@ app.get('/view', function(req, res){
    
   var amount=req.body.amount;
       console.log(amount);
-  account1=req.body.address;
+  account1=req.body.address;// take address from sender
   console.log(account1);
-      privatekey1=Buffer.from(req.body.p,'hex')
-varphonenumber='91'+req.body.phonenumber
+      privatekey1=Buffer.from(req.body.p,'hex') // take privatekey from sender
+varphonenumber='91'+req.body.phonenumber // change country code if not india
+if(amount>=1){
 new User({projectname:req.body.projectname,donarname:req.body.donarname,email:req.body.email,phonenumber:req.body.phonenumber,address:req.body.address,amount:req.body.amount}).save()
     .then(item => {
-  
      web3.eth.getTransactionCount(account1, (err, txCount) => {
-  
-  const txObject = {
+  const txObject = {// creating a transaction object
     nonce:    web3.toHex(txCount),
     to:       account2,
     value:    web3.toHex(web3.toWei(amount, 'ether')),
@@ -136,27 +201,13 @@ new User({projectname:req.body.projectname,donarname:req.body.donarname,email:re
     gasPrice: web3.toHex(web3.toWei('10', 'gwei'))
   }
 
-  
-  const tx = new Tx(txObject)
- /* if(account1=="0xf6211984089A17e3F55BEEB7df690Cbc35EcFb43"){
-    console.log(account1);
-    privatekey1=Buffer.from('0e01525e0d90ef42c3de4dba059896277c5531fd28214bcd7d651dc607046a71','hex')
-  }
-  else if(account1=="0xFA7314024Ece55cAEE7B24C08291DAaB31ac1CD7"){
-    privatekey1= Buffer.from('344516a4d6dcd9f5e3036becbc9d74a64dfc71dc8558a74bc6d1ec4c69db3b03','hex')
-
-  }else if(account1=="0xf5A61e202fF434b72265B081AC6c08321eCA6fE4")
-  {
-          privatekey1=Buffer.from('cd7394aa6a0b7e222cd68f8bfd25a6bdf180b3afa831d1b177dd1922f091233d','hex')
-
-
-  }*/
+  const tx = new Tx(txObject)// converting into ethereum transaction object
      
-tx.sign(privatekey1)
+tx.sign(privatekey1) // signing the object
   const serializedTx = tx.serialize()
   const raw = '0x' + serializedTx.toString('hex')
 
-  web3.eth.sendRawTransaction(raw, (err, txHash) => {
+  web3.eth.sendRawTransaction(raw, (err, txHash) => { // sending or performing the transaction
      web3.eth.getBalance(account1,(err,bal)=>{
   console.log('account1 getBalance',web3.fromWei(bal,'ether'))
      })
@@ -167,11 +218,27 @@ tx.sign(privatekey1)
 
   })
 })
+      var mailOptions = { // using nodemailer to send mail to sender mail id
+           from: '',
+            to:req.body.email,
+            subject: 'you have successfully transferred funds',
+            text: req.body.donarname+' has transferred the amount '+req.body.amount+' from '+req.body.address+' to '+account2
+            };
+
+           transporter.sendMail(mailOptions, function(error, info){
+           if (error) {
+               console.log(error);
+             } else {
+              console.log('Email sent: ' + info.response);
+             }
+           });
+     console.log("after payment");
 var msg='funds have been tranformed from '+req.body.address+' to '+account2+' of amount' +req.body.amount
 console.log(msg)
+// sending message to the mobile using the springedge api
      var params = { 
-'sender': 'SEDEMO', 'apikey': '6ubqq88255zc9v0071n9856gxsl09p10i', 'to': [ varphonenumber],
-'message': 'funds tranformed successfully', 'format': 'json' };
+'sender': 'SEDEMO', 'apikey': '6ubqq88255zc9v0071n9856gxsl09p10i', 'to': [varphonenumber],
+'message': 'transaction completed message', 'format': 'json' };
 springedge.messages.send(params, 5000, function (err, response) {
   if (err) {
     return console.log(err);
@@ -180,17 +247,50 @@ springedge.messages.send(params, 5000, function (err, response) {
   console.log(response);
 });
      return res.render('pay',{
-      title:'contact',
+      title:'pay',
 
      });
      })
     .catch(err => {
       res.status(400).send("unable to save to database");
     });
+  }else{
+    return res.render('error',{
+      title:'error',
 
+     });
+  }
 });
 
- 
+ app.post("/feedback", (req, res) => {
+  var passengername=req.body.name;
+  var passengeremail=req.body.email;
+  var passengercomments=req.body.comments;
+
+             var mailOptions = {
+           from: 'emailaddress',
+            to: 'toemailaddress',
+            subject: 'feedback of passenger',
+            text: passengername+' has sent the following feed back '+passengercomments+' and his email id '+passengeremail
+            };
+
+           transporter.sendMail(mailOptions, function(error, info){
+           if (error) {
+               console.log(error);
+             } else {
+              console.log('Email sent: ' + info.response);
+             }
+           });
+           return res.send('thanks for your feedback');
+});
+ app.get("/logout", (req, res) => {
+return res.render('loginpage',{
+      title:'loginpage',
+
+     });
+
+ })
+
 app.listen(port, () => {
   console.log("Server listening on port " + port);
 });
